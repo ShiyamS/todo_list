@@ -8,26 +8,32 @@
   <div class="add-task">
     <mat-form-field appearance="fill" class="task-input">
       <mat-label>Task</mat-label>
-      <input matInput placeholder="Add Task" [(ngModel)]="task" (keyup.enter)="addTask()">
+      <input matInput placeholder="Add Task" [(ngModel)]="taskTitle" (keyup.enter)="addTask()">
     </mat-form-field>
     <button mat-raised-button class="add-button-task" (click)="addTask()">Add</button>
   </div>
 
   <div class="task-list" *ngIf="tasks.length > 0">
     <mat-list class="task-items">
-      <mat-list-item *ngFor="let task of tasks; let i = index">
+      <mat-list-item *ngFor="let task of tasks; let i = index" style="height: 63px;">
         <div class="task">
-          <span>{{ task }}</span>
-          <button mat-icon-button (click)="deleteTask(i)">
-            <mat-icon>delete</mat-icon>
-          </button>
+          <input matInput placeholder="Add Task" class="added-task" value="{{ task.title }}"
+            [disabled]="selectedTaskID !== task._id" #taskInput>
+          <div>
+            <button mat-icon-button (click)="editTask(task._id!)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button *ngIf="selectedTaskID === task._id" mat-icon-button
+              (click)="updateTask(task._id!, taskInput.value)">
+              <mat-icon>done</mat-icon>
+            </button>
+            <button *ngIf="selectedTaskID !== task._id" mat-icon-button (click)="deleteTask(task._id!)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
         </div>
       </mat-list-item>
     </mat-list>
   </div>
 </main>
-
-
-{{message}}
-
-<router-outlet />
+<router-outlet></router-outlet>

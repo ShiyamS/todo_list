@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,6 +14,16 @@ interface data {
   message: string;
 }
 
+interface todo {
+  title: string,
+  status: string
+  _id?: string
+}
+enum todoStatus {
+  "Inprogess" = "inprogress",
+  "Completed" = "completed",
+  "Pending" = "pending"
+}
 
 @Component({
   selector: 'app-root',
@@ -22,31 +32,74 @@ interface data {
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
+  tastStatus: todoStatus = todoStatus.Inprogess
   title = 'todo_list';
-  task = '';
-  tasks: string[] = [];
-
+  taskTitle!: string;
+  taskStatus: string = "pending";
+  tasks: todo[] = [];
   message!: string;
+  selectedTaskID: string | null = null;
+
 
   private apiService = inject(ApiService);
 
   ngOnInit() {
     this.apiService.getMessage().subscribe((data: data) => {
-      // console.log(data);
       this.message = data.message;
     })
+
+    this.getAllTasks();
+
+  }
+
+  getAllTasks() {
+    this.apiService.refreshTodoList();
+    this.apiService.allTodos$.subscribe((data) => {
+      this.tasks = data;
+    })
+
   }
 
 
   addTask() {
-    if (this.task != '') {
-      this.tasks.push(this.task);
-      this.task = '';
+    console.log();
+    if (this.taskTitle) {
+      const prepareTask: todo = {
+        title: this.taskTitle,
+        status: this.taskStatus,
+      }
+      this.apiService.createTodo(prepareTask).subscribe(() => {
+        this.resetTask()
+      })
     }
   }
 
 
-  deleteTask(index: number) {
-    this.tasks.splice(index, 1);
+  deleteTask(id: string) {
+    this.apiService.deleteTodo(id).subscribe()
+  }
+
+  editTask(id: string) {
+    this.selectedTaskID = id;
+  }
+
+  updateTask(id: string, task: string) {
+    const findID = this.tasks.find((task) => task._id === id);
+    if (findID) {
+      const preparedata = {
+        title: task,
+        status: findID.status
+      }
+
+      this.apiService.updateTodo(id, preparedata).subscribe(() => {
+        this.selectedTaskID = null;
+      })
+    }
+
+  }
+
+  resetTask() {
+    this.taskTitle = '';
+    this.taskStatus = 'pending';
   }
 }

@@ -29,7 +29,7 @@ main {
   gap: 10px;
   background-color: rgba(0, 0, 0, 0.1); /* Add a semi-transparent backdrop */
   padding: 20px;
-  width: 40%;
+  width: 60%; /* Increased width */
   box-sizing: border-box;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a shadow effect */
   align-items: center;
@@ -41,6 +41,7 @@ main {
 
 .task-input {
   width: 100%;
+  font-size: 1.2em; /* Increased font size */
 }
 
 .task {
@@ -74,4 +75,11 @@ main {
 .add-button-task:focus {
   outline: none;
   box-shadow: 0 0 0 2px rgba(7, 130, 252, 0.25);
+}
+
+.added-task{
+    width: 100%;
+    padding: 9px 25px;
+    font-size: 1rem;
+    font-weight: 600;
 }

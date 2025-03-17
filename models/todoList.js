@@ -1,17 +1,14 @@
 const mongoose = require('mongoose');
-const itemSchema = new mongoose.Schema({
-  name: {
+
+const todoListSchema = new mongoose.Schema({
+  title: {
     type: String,
     required: true,
     trim: true
   },
-  description: {
+  status: {
     type: String,
     trim: true
-  },
-  quantity: {
-    type: Number,
-    default: 0
   },
   createdAt: {
     type: Date,
@@ -19,4 +16,4 @@ const itemSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Item', itemSchema);
+module.exports = mongoose.model('TodoList', todoListSchema);
