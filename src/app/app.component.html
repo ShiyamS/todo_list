@@ -18,7 +18,7 @@
       <mat-list-item *ngFor="let task of tasks; let i = index" style="height: 63px;">
         <div class="task">
           <input matInput placeholder="Add Task" class="added-task" value="{{ task.title }}"
-            [disabled]="selectedTaskID !== task._id" #taskInput>
+            [disabled]="selectedTaskID !== task._id" #taskInput (keyup.enter)="updateTask(task._id!, taskInput.value)">
           <div>
             <button mat-icon-button (click)="editTask(task._id!)">
               <mat-icon>edit</mat-icon>
