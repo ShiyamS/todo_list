@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, Input, OnInit, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,7 +9,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { ApiService } from './api.service';
-
+import { TodoListComponent } from './todo-list/todo-list.component';
 interface data {
   message: string;
 }
@@ -27,7 +27,7 @@ enum todoStatus {
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MatToolbarModule, MatFormFieldModule, FormsModule, MatInputModule, MatButtonModule, MatListModule, MatIconModule, CommonModule],
+  imports: [RouterOutlet, MatToolbarModule, MatFormFieldModule, FormsModule, MatInputModule, MatButtonModule, MatListModule, MatIconModule, CommonModule, TodoListComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -40,8 +40,11 @@ export class AppComponent implements OnInit {
   message!: string;
   selectedTaskID: string | null = null;
 
+  @ViewChild('listOfTodoCount') listOfTodoCount!: ElementRef;
+
 
   private apiService = inject(ApiService);
+  private elementRef = inject(ElementRef);
 
   ngOnInit() {
     this.apiService.getMessage().subscribe((data: data) => {
@@ -83,15 +86,16 @@ export class AppComponent implements OnInit {
     this.selectedTaskID = id;
   }
 
-  updateTask(id: string, task: string) {
-    const findID = this.tasks.find((task) => task._id === id);
+  updateTask(updateTask: { id: string, value: string }) {
+    console.log(updateTask);
+    const findID = this.tasks.find((task) => task._id === updateTask.id);
     if (findID) {
       const preparedata = {
-        title: task,
+        title: updateTask.value,
         status: findID.status
       }
 
-      this.apiService.updateTodo(id, preparedata).subscribe(() => {
+      this.apiService.updateTodo(updateTask.id, preparedata).subscribe(() => {
         this.selectedTaskID = null;
       })
     }

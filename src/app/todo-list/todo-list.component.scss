@@ -1,0 +1,59 @@
+ .task-list {
+  display: flex;
+  gap: 10px;
+  background-color: rgba(0, 0, 0, 0.1); /* Add a semi-transparent backdrop */
+  padding: 20px;
+  width: 100%; /* Increased width */
+  box-sizing: border-box;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a shadow effect */
+  align-items: center;
+}
+
+.task-list {
+  margin-top: 10px;
+}
+
+.task-input {
+  width: 100%;
+  font-size: 1.2em; /* Increased font size */
+}
+
+.task {
+  display: flex;
+  background-color: #373939; /* Primary color background */
+  padding: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 0 10px rgba(92, 89, 89, 0.1); /* Add a shadow effect */
+  align-items: baseline;
+  width: 100%; /* Expand to the length of the input */
+  margin-bottom: 5px;
+}
+
+.task > span {
+  width: 100%;
+}
+
+.task-items {
+  width: 100%;
+}
+
+.add-button-task {
+  margin-left: 5px;
+  padding: 20px 20px;
+  width: 20%;
+  height: 53px;
+  border-radius: 0%;
+  margin-bottom: 20px;
+}
+
+.add-button-task:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(7, 130, 252, 0.25);
+}
+
+.added-task{
+    width: 100%;
+    padding: 9px 25px;
+    font-size: 1rem;
+    font-weight: 600;
+}
